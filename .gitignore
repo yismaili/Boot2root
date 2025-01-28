@@ -1,1 +1,5 @@
-.DS_Store
+**/*a.out
+**/*.vscode
+**/*.vagrant
+**/*.o
+**/*.DS_Store
