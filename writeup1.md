@@ -231,7 +231,7 @@ python -c 'import pty; pty.spawn("/bin/bash")'
 Switch to the root user using the `su` command:
 
 ```jsx
-www-data@BornToSecHackMe:/var/www/forum/templates_c$ su yo-root
-Password: yopass
+www-data@BornToSecHackMe:/var/www/forum/templates_c$ su yo
+Password: yo
 root@BornToSecHackMe:~#
 ```
