@@ -181,7 +181,7 @@ www-data@BornToSecHackMe:/var/www/forum/templates_c$
 
 ## Privilege escalation
 
-After checking the kernel release date, I found it to be **Wed Sep 9 11:27:47 UTC 2015**. I did some research and discovered that vulnerabilities like **Dirty COW** were present in the operating system around that time.
+After checking the kernel release date, I found it to be **Wed Sep 9 11:27:47 UTC 2015**. I did some research and discovered that vulnerabilities like **Dirty COW** (CVE-2016-5195) were present in the operating system around that time.
 
 ```jsx
 www-data@BornToSecHackMe:/var/www/forum/templates_c$ uname -a
@@ -190,19 +190,23 @@ Linux BornToSecHackMe 3.2.0-91-generic-pae #129-Ubuntu SMP Wed Sep 9 11:27:47 UT
 www-data@BornToSecHackMe:/var/www/forum/templates_c
 ```
 
-**Dirty COW** (CVE-2016-5195) is a well-known privilege escalation vulnerability in the Linux kernel, discovered in October 2016. It stands for **"Copy-On-Write"** and affects how the Linux kernel handles this memory management feature.
+🚨 Exploit: Dirty COW Privilege Escalation 🚨
+Dirty COW (Copy-On-Write) is a race condition vulnerability in the Linux kernel that allows an attacker to gain root privileges by modifying read-only files. This exploit works by racing madvise(MADV_DONTNEED) against write() or ptrace() to overwrite protected system files such as /etc/passwd.
 
-Here’s a brief explanation:
+🔍 How It Works
+The exploit leverages Copy-On-Write (COW), which is a kernel memory management feature that allows multiple processes to share the same memory page until one tries to modify it. The exploit forces the kernel to replace a read-only file's memory page with a modified version.
 
-### What is Dirty COW?
-
-- **Copy-On-Write (COW)** is a mechanism that allows processes to share memory pages until a write operation occurs. Once a process attempts to modify a shared page, a new copy of the page is created for that process.
-- The **Dirty COW vulnerability** occurs because the kernel improperly handles this mechanism, allowing unprivileged users to write to read-only memory, thus "dirtying" the memory.
-
-### Exploit:
-
-- An attacker can exploit Dirty COW to gain **root privileges** by modifying files they normally wouldn't have access to, such as system binaries.
-
+📝 Steps to Exploit Dirty COW
+1. Define user details for a new /etc/passwd entry (e.g., a root user with ID 0).
+2. Generate a password hash for the new user.
+3. Open the target file (/etc/passwd) and map it into memory using mmap().
+4. Fork a child process to execute ptrace() and madvise() attacks.
+5. Child process:
+ - Creates a thread that continuously runs madvise() to invalidate memory pages.
+ - Stops itself (SIGSTOP) to allow the parent process to inject data.
+6. Parent process:
+ - Uses ptrace(PTRACE_POKETEXT) to modify the read-only mapped memory with new user credentials.
+  
 Compile the `dirty.c` file:
 
 ```jsx
