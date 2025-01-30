@@ -190,13 +190,13 @@ Linux BornToSecHackMe 3.2.0-91-generic-pae #129-Ubuntu SMP Wed Sep 9 11:27:47 UT
 www-data@BornToSecHackMe:/var/www/forum/templates_c
 ```
 
-🚨 Exploit: Dirty COW Privilege Escalation 🚨
+### Exploit: Dirty COW Privilege Escalation 
 Dirty COW (Copy-On-Write) is a race condition vulnerability in the Linux kernel that allows an attacker to gain root privileges by modifying read-only files. This exploit works by racing madvise(MADV_DONTNEED) against write() or ptrace() to overwrite protected system files such as /etc/passwd.
 
-🔍 How It Works
+### How It Works
 The exploit leverages Copy-On-Write (COW), which is a kernel memory management feature that allows multiple processes to share the same memory page until one tries to modify it. The exploit forces the kernel to replace a read-only file's memory page with a modified version.
 
-📝 Steps to Exploit Dirty COW
+### Steps to Exploit Dirty COW
 1. Define user details for a new /etc/passwd entry (e.g., a root user with ID 0).
 2. Generate a password hash for the new user.
 3. Open the target file (/etc/passwd) and map it into memory using mmap().
