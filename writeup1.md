@@ -25,13 +25,6 @@ for port in $(seq 1 9999); do
 done > port
 ```
 
-```bash
-for port in $(seq 1 9999); do
-  echo "Scanning 10.13.100.236 on port $port..."
-  nc -zv 10.13.100.236 $port 2>&1 | grep succeeded
-done > port
-```
-
 Simple bash loop that scans ports on the host `10.13.100.236` from 1 to 9999 using `netcat` (`nc`)
 
 The Output:
