@@ -564,7 +564,6 @@ Each input character must have its last 4 bits (`0xF`, `0x0`, `0x5`, etc.) match
 
 ```
 opuknq
-/PEKMQ
 ```
 
 ## **Phase 6**
