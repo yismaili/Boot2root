@@ -13,7 +13,6 @@
 #include <crypt.h>
 
 const char *target_file = "/etc/passwd";
-const char *backup_file = "/tmp/passwd_backup.bak";
 const char *hash_salt = "y0%y0";
 const char *password = "yo";
 
